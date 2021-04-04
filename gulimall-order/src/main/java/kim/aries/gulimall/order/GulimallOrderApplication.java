@@ -1,8 +1,10 @@
 package kim.aries.gulimall.order;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@MapperScan("kim.aries.gulimall.order.dao")
 @SpringBootApplication
 public class GulimallOrderApplication {
 

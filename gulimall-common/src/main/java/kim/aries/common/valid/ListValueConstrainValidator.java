@@ -13,7 +13,10 @@ public class ListValueConstrainValidator implements ConstraintValidator<ListValu
 
     private Set<Integer> set = new HashSet<>();
 
-    //初始化方法
+    /**
+     * 初始化方法
+     * @param constraintAnnotation
+     */
     @Override
     public void initialize(ListValue constraintAnnotation) {
         int[] vals = constraintAnnotation.vals();

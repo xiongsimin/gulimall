@@ -29,7 +29,7 @@ public class BrandEntity implements Serializable {
     /**
      * 品牌id
      */
-
+    //临时
     @NotNull(message = "修改必须指定商品Id", groups = {UpdateGroup.class})
     @Null(message = "新增不能指定商品Id", groups = {AddGroup.class})
     @TableId

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import kim.aries.common.valid.AddGroup;
 import kim.aries.common.valid.UpdateGroup;
+import kim.aries.common.valid.UpdateStatusGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -65,8 +66,8 @@ public class BrandController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:brand:save")
-    public R save(@Validated(AddGroup.class) @RequestBody BrandEntity brand, BindingResult result) {
-        if (result.hasErrors()) {
+    public R save(@Validated(AddGroup.class) @RequestBody BrandEntity brand/*, BindingResult result*/) {
+/*        if (result.hasErrors()) {
             Map errorMap = new HashMap();
             //获取校验的错误信息
             result.getFieldErrors().forEach((item) -> {
@@ -77,7 +78,8 @@ public class BrandController {
             return R.error(400, "提交的数据不合法").put("data", errorMap);
         } else {
             brandService.save(brand);
-        }
+        }*/
+        brandService.save(brand);
         return R.ok();
     }
 
@@ -87,6 +89,16 @@ public class BrandController {
     @RequestMapping("/update")
     //@RequiresPermissions("product:brand:update")
     public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand) {
+        brandService.updateById(brand);
+
+        return R.ok();
+    }
+    /**
+     * 修改状态
+     */
+    @RequestMapping("/update/status")
+    //@RequiresPermissions("product:brand:update")
+    public R updateStatus(@Validated(UpdateStatusGroup.class) @RequestBody BrandEntity brand) {
         brandService.updateById(brand);
 
         return R.ok();

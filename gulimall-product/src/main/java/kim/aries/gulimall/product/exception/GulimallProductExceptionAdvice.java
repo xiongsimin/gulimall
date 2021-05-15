@@ -34,6 +34,7 @@ public class GulimallProductExceptionAdvice {
 
     @ExceptionHandler(value = Throwable.class)
     public R handleException(Exception e) {
+        e.printStackTrace();
         return R.error(BizCodeEnum.UNKNOW_EXCEPTION.getCode(), BizCodeEnum.UNKNOW_EXCEPTION.getMsg());
     }
 }

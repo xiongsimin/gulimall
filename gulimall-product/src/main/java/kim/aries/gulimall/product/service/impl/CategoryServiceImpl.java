@@ -1,5 +1,7 @@
 package kim.aries.gulimall.product.service.impl;
 
+import kim.aries.gulimall.product.dao.CategoryBrandRelationDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,10 +16,13 @@ import kim.aries.common.utils.Query;
 import kim.aries.gulimall.product.dao.CategoryDao;
 import kim.aries.gulimall.product.entity.CategoryEntity;
 import kim.aries.gulimall.product.service.CategoryService;
+import org.springframework.util.StringUtils;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+    @Autowired
+    private CategoryBrandRelationDao categoryBrandRelationDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -61,6 +66,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         }
         Collections.reverse(tempPath);
         return tempPath.toArray(new Long[tempPath.size()]);
+    }
+
+    @Override
+    public void updateByDetail(CategoryEntity category) {
+        if (!StringUtils.isEmpty(category.getName())) {
+            //使用自定义sql语句
+            categoryBrandRelationDao.updateCategoryNameById(category.getCatId(), category.getName());
+        }
+        this.save(category);
     }
 
     private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> categoryEntityList) {

@@ -32,5 +32,12 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @return
      */
     Long[] getCatelogPath(Long catelogId);
+
+    /**
+     * 更新分类表的同时还需要更新关系表
+     *
+     * @param category
+     */
+    void updateByDetail(CategoryEntity category);
 }
 

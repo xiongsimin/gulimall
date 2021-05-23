@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import kim.aries.common.utils.PageUtils;
 import kim.aries.gulimall.product.entity.AttrAttrgroupRelationEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,12 @@ import java.util.Map;
 public interface AttrAttrgroupRelationService extends IService<AttrAttrgroupRelationEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 批量删除属性分组与属性关联关系
+     *
+     * @param attrAttrGroupRelationEntities
+     */
+    void batchDeleteAttr(List<AttrAttrgroupRelationEntity> attrAttrGroupRelationEntities);
 }
 

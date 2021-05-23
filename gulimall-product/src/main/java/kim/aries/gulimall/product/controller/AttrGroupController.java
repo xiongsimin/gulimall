@@ -1,15 +1,16 @@
 package kim.aries.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import kim.aries.gulimall.product.entity.AttrAttrgroupRelationEntity;
+import kim.aries.gulimall.product.entity.AttrEntity;
+import kim.aries.gulimall.product.service.AttrAttrgroupRelationService;
+import kim.aries.gulimall.product.service.AttrService;
 import kim.aries.gulimall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import kim.aries.gulimall.product.entity.AttrGroupEntity;
 import kim.aries.gulimall.product.service.AttrGroupService;
@@ -31,6 +32,10 @@ public class AttrGroupController {
     private AttrGroupService attrGroupService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private AttrService attrService;
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
 
     /**
      * 列表
@@ -88,6 +93,22 @@ public class AttrGroupController {
     public R delete(@RequestBody Long[] attrGroupIds) {
         attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
 
+        return R.ok();
+    }
+
+    ///product/attrgroup/{attrgroupId}/attr/relation  获取属性分组的关联的所有属性
+    @GetMapping("/{attrgroupId}/attr/relation")
+    public R getAttrRelationList(@PathVariable("attrgroupId") Long attrgroupId) {
+        List<AttrEntity> attrEntityList = attrService.getAttrListByGroupId(attrgroupId);
+        return R.ok().put("data", attrEntityList);
+    }
+
+    //attr/relation/delete
+    @PostMapping("/attr/relation/delete")
+    public R batchDeleteAttr(@RequestBody List<AttrAttrgroupRelationEntity> attrAttrGroupRelationEntities) {
+        if (attrAttrGroupRelationEntities != null && attrAttrGroupRelationEntities.size() > 0) {
+            attrAttrgroupRelationService.batchDeleteAttr(attrAttrGroupRelationEntities);
+        }
         return R.ok();
     }
 

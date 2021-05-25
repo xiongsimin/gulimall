@@ -103,6 +103,13 @@ public class AttrGroupController {
         return R.ok().put("data", attrEntityList);
     }
 
+    //1/noattr/relation
+    @GetMapping("/{attrgroupId}/noattr/relation")
+    public R getNoAttrRelationList(@PathVariable("attrgroupId") Long attrgroupId, @RequestParam Map<String, Object> params) {
+        PageUtils pageUtils = attrService.getNoAttrRelationList(attrgroupId, params);
+        return R.ok().put("page", pageUtils);
+    }
+
     //attr/relation/delete
     @PostMapping("/attr/relation/delete")
     public R batchDeleteAttr(@RequestBody List<AttrAttrgroupRelationEntity> attrAttrGroupRelationEntities) {

@@ -2,7 +2,6 @@ package kim.aries.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import kim.aries.common.utils.PageUtils;
-import kim.aries.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import kim.aries.gulimall.product.entity.AttrEntity;
 import kim.aries.gulimall.product.vo.AttrRespVo;
 import kim.aries.gulimall.product.vo.AttrVo;
@@ -60,5 +59,14 @@ public interface AttrService extends IService<AttrEntity> {
      * @return
      */
     List<AttrEntity> getAttrListByGroupId(Long attrgroupId);
+
+    /**
+     * 查询还没有被关联过的属性（查询当前分组可以关联的属性）
+     *
+     * @param attrgroupId
+     * @param params
+     * @return
+     */
+    PageUtils getNoAttrRelationList(Long attrgroupId, Map<String, Object> params);
 }
 

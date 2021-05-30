@@ -24,5 +24,7 @@ public interface AttrAttrgroupRelationService extends IService<AttrAttrgroupRela
      * @param attrAttrGroupRelationEntities
      */
     void batchDeleteAttr(List<AttrAttrgroupRelationEntity> attrAttrGroupRelationEntities);
+
+    void getAttrGroupWithAttr(Long catelogId);
 }
 

@@ -5,12 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import kim.aries.gulimall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import kim.aries.gulimall.product.entity.CategoryBrandRelationEntity;
 import kim.aries.gulimall.product.service.CategoryBrandRelationService;
@@ -87,6 +84,13 @@ public class CategoryBrandRelationController {
         categoryBrandRelationService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    ///brands/list
+    @GetMapping("/brands/list")
+    public R listBrandByCatelog(@RequestParam(value = "catId", required = true) Long catId) {
+        List<BrandVo> brandVos = categoryBrandRelationService.listBrandByCatelog(catId);
+        return R.ok().put("data", brandVos);
     }
 
 }

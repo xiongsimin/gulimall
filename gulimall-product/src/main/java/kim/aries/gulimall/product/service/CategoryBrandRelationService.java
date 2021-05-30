@@ -3,7 +3,9 @@ package kim.aries.gulimall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import kim.aries.common.utils.PageUtils;
 import kim.aries.gulimall.product.entity.CategoryBrandRelationEntity;
+import kim.aries.gulimall.product.vo.BrandVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,5 +25,12 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
      * @param categoryBrandRelation
      */
     void saveDetail(CategoryBrandRelationEntity categoryBrandRelation);
+
+    /**
+     * 查询商品分类下的品牌
+     *
+     * @param catId
+     */
+    List<BrandVo> listBrandByCatelog(Long catId);
 }
 

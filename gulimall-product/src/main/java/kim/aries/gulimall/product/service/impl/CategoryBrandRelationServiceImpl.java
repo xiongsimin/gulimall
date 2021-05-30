@@ -4,10 +4,13 @@ import kim.aries.gulimall.product.dao.BrandDao;
 import kim.aries.gulimall.product.dao.CategoryDao;
 import kim.aries.gulimall.product.entity.BrandEntity;
 import kim.aries.gulimall.product.entity.CategoryEntity;
+import kim.aries.gulimall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -46,4 +49,15 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         this.save(categoryBrandRelation);
     }
 
+    @Override
+    public List<BrandVo> listBrandByCatelog(Long catId) {
+        List<CategoryBrandRelationEntity> categoryBrandRelationEntities = baseMapper.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        List<BrandVo> brandVos = categoryBrandRelationEntities.stream().map(e -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(e.getBrandId());
+            brandVo.setBrandName(e.getBrandName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return brandVos;
+    }
 }

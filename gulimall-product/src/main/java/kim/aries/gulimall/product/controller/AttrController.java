@@ -49,7 +49,7 @@ public class AttrController {
     @RequestMapping("/{attrType}/list/{catelogId}")
     //生成的Controller文件中每个Controller都生成Shiro注解
     //@RequiresPermissions("product:attr:list")
-    public R baseList(@RequestParam Map<String, Object> params, @PathVariable("attrType") int attrType, @PathVariable("catelogId") Long catelogId) {
+    public R baseList(@RequestParam Map<String, Object> params, @PathVariable("attrType") String attrType, @PathVariable("catelogId") Long catelogId) {
         PageUtils page = attrService.queryPageByCatelogId(params, catelogId, attrType);
 
         return R.ok().put("page", page);

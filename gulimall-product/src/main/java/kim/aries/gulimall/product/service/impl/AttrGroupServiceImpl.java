@@ -2,13 +2,19 @@ package kim.aries.gulimall.product.service.impl;
 
 import kim.aries.gulimall.product.dao.AttrAttrgroupRelationDao;
 import kim.aries.gulimall.product.dao.AttrDao;
+import kim.aries.gulimall.product.dao.CategoryDao;
 import kim.aries.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import kim.aries.gulimall.product.entity.AttrEntity;
+import kim.aries.gulimall.product.entity.CategoryEntity;
+import kim.aries.gulimall.product.service.CategoryService;
+import kim.aries.gulimall.product.vo.AttrGroupRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -29,6 +35,8 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     AttrDao attrDao;
     @Autowired
     AttrAttrgroupRelationDao attrAttrgroupRelationDao;
+    @Autowired
+    CategoryDao categoryDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -54,6 +62,18 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
                 });
             }
             IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), wrapper);
+            /*//todo 属性分组界面只显示所属商品分类ID，却不显示名称，此处特殊处理，将名称也展示
+            List<AttrGroupEntity> records = page.getRecords();
+            List<Long> catelogIds = records.stream().map(e -> {
+                return e.getCatelogId();
+            }).collect(Collectors.toList());
+            //根据id查询出所有商品分类信息
+            List<CategoryEntity> categoryEntityList = categoryDao.selectBatchIds(catelogIds);
+            Map<Long, String> catelogInfo = new HashMap<>();
+            categoryEntityList.stream().forEach(e -> {
+                catelogInfo.put(e.getCatId(), e.getName());
+            });
+            */
             return new PageUtils(page);
         }
     }

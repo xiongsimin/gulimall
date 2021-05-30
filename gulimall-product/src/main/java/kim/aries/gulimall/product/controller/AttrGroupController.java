@@ -9,6 +9,7 @@ import kim.aries.gulimall.product.entity.AttrEntity;
 import kim.aries.gulimall.product.service.AttrAttrgroupRelationService;
 import kim.aries.gulimall.product.service.AttrService;
 import kim.aries.gulimall.product.service.CategoryService;
+import kim.aries.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -119,4 +120,25 @@ public class AttrGroupController {
         return R.ok();
     }
 
+    /**
+     * 新增属性分组与属性关联关系
+     *
+     * @param attrAttrgroupRelationEntities
+     * @return
+     */
+    ///product/attrgroup/attr/relation
+    @PostMapping("/attr/relation")
+    public R doRelation(@RequestBody List<AttrAttrgroupRelationEntity> attrAttrgroupRelationEntities) {
+        if (attrAttrgroupRelationEntities != null && attrAttrgroupRelationEntities.size() > 0) {
+            attrAttrgroupRelationService.saveBatch(attrAttrgroupRelationEntities);
+        }
+        return R.ok();
+    }
+
+    ///product/attrgroup/0/withattr
+    @GetMapping(value = "/{catelogId}/withattr")
+    public R getAttrGroupWithAttr(@PathVariable("catelogId") Long catelogId) {
+        attrAttrgroupRelationService.getAttrGroupWithAttr(catelogId);
+        return R.ok();
+    }
 }

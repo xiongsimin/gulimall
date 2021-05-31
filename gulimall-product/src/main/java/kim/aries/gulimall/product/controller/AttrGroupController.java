@@ -9,6 +9,7 @@ import kim.aries.gulimall.product.entity.AttrEntity;
 import kim.aries.gulimall.product.service.AttrAttrgroupRelationService;
 import kim.aries.gulimall.product.service.AttrService;
 import kim.aries.gulimall.product.service.CategoryService;
+import kim.aries.gulimall.product.vo.AttrGroupWithAttrsVo;
 import kim.aries.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -138,7 +139,7 @@ public class AttrGroupController {
     ///product/attrgroup/0/withattr
     @GetMapping(value = "/{catelogId}/withattr")
     public R getAttrGroupWithAttr(@PathVariable("catelogId") Long catelogId) {
-        attrAttrgroupRelationService.getAttrGroupWithAttr(catelogId);
-        return R.ok();
+        List<AttrGroupWithAttrsVo> attrGroupWithAttr = attrGroupService.getAttrGroupWithAttr(catelogId);
+        return R.ok().put("data", attrGroupWithAttr);
     }
 }

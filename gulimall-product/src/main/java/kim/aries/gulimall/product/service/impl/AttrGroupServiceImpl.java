@@ -5,13 +5,12 @@ import kim.aries.gulimall.product.dao.AttrDao;
 import kim.aries.gulimall.product.dao.CategoryDao;
 import kim.aries.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import kim.aries.gulimall.product.entity.AttrEntity;
-import kim.aries.gulimall.product.entity.CategoryEntity;
-import kim.aries.gulimall.product.service.CategoryService;
-import kim.aries.gulimall.product.vo.AttrGroupRespVo;
+import kim.aries.gulimall.product.vo.AttrGroupWithAttrsVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -76,5 +75,26 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             */
             return new PageUtils(page);
         }
+    }
+
+    @Override
+    public List<AttrGroupWithAttrsVo> getAttrGroupWithAttr(Long catelogId) {
+        //查询所有属性分组
+        List<AttrGroupEntity> attrGroupEntities = this.list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catelogId));
+        List<AttrGroupWithAttrsVo> attrGroupWithAttrList = attrGroupEntities.stream().map(e -> {
+            List<AttrAttrgroupRelationEntity> attrAttrgroupRelationEntities = attrAttrgroupRelationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id", e.getAttrGroupId()));
+            List<Long> attrIds = attrAttrgroupRelationEntities.stream().map(relation -> {
+                return relation.getAttrId();
+            }).collect(Collectors.toList());
+            List<AttrEntity> attrs = new ArrayList<>();
+            if (attrIds != null && attrIds.size() > 0) {
+                attrs = attrDao.selectList(new QueryWrapper<AttrEntity>().in("attr_id", attrIds));
+            }
+            AttrGroupWithAttrsVo attrGroupWithAttrsVo = new AttrGroupWithAttrsVo();
+            BeanUtils.copyProperties(e, attrGroupWithAttrsVo);
+            attrGroupWithAttrsVo.setAttrs(attrs);
+            return attrGroupWithAttrsVo;
+        }).collect(Collectors.toList());
+        return attrGroupWithAttrList;
     }
 }

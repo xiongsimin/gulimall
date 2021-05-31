@@ -1,5 +1,6 @@
 package kim.aries.gulimall.product.service.impl;
 
+import kim.aries.gulimall.product.entity.AttrGroupEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

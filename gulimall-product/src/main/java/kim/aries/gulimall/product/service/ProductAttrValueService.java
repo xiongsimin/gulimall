@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import kim.aries.common.utils.PageUtils;
 import kim.aries.gulimall.product.entity.ProductAttrValueEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,12 @@ import java.util.Map;
 public interface ProductAttrValueService extends IService<ProductAttrValueEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 保存商品属性值
+     *
+     * @param productAttrValueEntities
+     */
+    void saveProductAttrValue(List<ProductAttrValueEntity> productAttrValueEntities);
 }
 

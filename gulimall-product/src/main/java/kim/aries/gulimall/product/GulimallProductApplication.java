@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 1、整合Mybatis-Plus依赖
@@ -24,6 +25,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @MapperScan("kim.aries.gulimall.product.dao")
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients(basePackages = "kim.aries.gulimall.product.feign")
 public class GulimallProductApplication {
 
     public static void main(String[] args) {

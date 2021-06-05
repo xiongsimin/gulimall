@@ -37,7 +37,7 @@ public class SpuInfoController {
     //生成的Controller文件中每个Controller都生成Shiro注解
     //@RequiresPermissions("product:spuinfo:list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = spuInfoService.queryPage(params);
+        PageUtils page = spuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }

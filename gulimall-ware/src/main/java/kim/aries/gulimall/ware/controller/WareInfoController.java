@@ -37,7 +37,7 @@ public class WareInfoController {
     //生成的Controller文件中每个Controller都生成Shiro注解
     //@RequiresPermissions("ware:wareinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = wareInfoService.queryPage(params);
+        PageUtils page = wareInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }

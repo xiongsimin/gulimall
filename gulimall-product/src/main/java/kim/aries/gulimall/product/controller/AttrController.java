@@ -1,8 +1,11 @@
 package kim.aries.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import kim.aries.gulimall.product.entity.ProductAttrValueEntity;
+import kim.aries.gulimall.product.service.ProductAttrValueService;
 import kim.aries.gulimall.product.vo.AttrRespVo;
 import kim.aries.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,18 @@ import kim.aries.common.utils.R;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+    @RequestMapping("/base/listforspu/{spuId}")
+    //生成的Controller文件中每个Controller都生成Shiro注解
+    //@RequiresPermissions("product:attr:list")
+    public R listforspu(@PathVariable("spuId") Long spuId) {
+        List<ProductAttrValueEntity> entities = productAttrValueService.listforspu(spuId);
+
+        return R.ok().put("data", entities);
+    }
 
     /**
      * 列表

@@ -3,10 +3,14 @@ package kim.aries.gulimall.ware.service.impl;
 import kim.aries.common.constant.WareConstant;
 import kim.aries.gulimall.ware.entity.PurchaseDetailEntity;
 import kim.aries.gulimall.ware.service.PurchaseDetailService;
+import kim.aries.gulimall.ware.service.WareSkuService;
 import kim.aries.gulimall.ware.vo.MergeVo;
+import kim.aries.gulimall.ware.vo.PurchaseDoneVo;
+import kim.aries.gulimall.ware.vo.PurchaseItemDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +27,17 @@ import kim.aries.gulimall.ware.entity.PurchaseEntity;
 import kim.aries.gulimall.ware.service.PurchaseService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
+
 
 @Service("purchaseService")
 public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity> implements PurchaseService {
 
     @Autowired
     PurchaseDetailService purchaseDetailService;
+
+    @Autowired
+    WareSkuService wareSkuService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -114,6 +123,37 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             purchaseDetailService.updateBatchById(collectdDetails);
         });
 
+    }
+
+    @Override
+    @Transactional
+    public void done(PurchaseDoneVo doneVo) {
+        //2、改变采购项状态
+        boolean flag = true;
+        List<PurchaseItemDoneVo> items = doneVo.getItems();
+        List<PurchaseDetailEntity> update = new ArrayList<>();
+        for (PurchaseItemDoneVo item : items) {
+            PurchaseDetailEntity detailEntity = new PurchaseDetailEntity();
+            if (item.getStatus() == WareConstant.PurchaseDetailsStatusEnum.HAVEERROR.getCode()) {
+                flag = false;
+                detailEntity.setStatus(item.getStatus());
+            } else {
+                detailEntity.setStatus(WareConstant.PurchaseDetailsStatusEnum.FINISHED.getCode());
+                //3、将成功采购的进行入库
+                PurchaseDetailEntity entity = purchaseDetailService.getById(item.getItemId());
+                wareSkuService.addStock(entity.getSkuId(), entity.getWareId(), entity.getSkuNum());
+            }
+            detailEntity.setId(item.getItemId());
+            update.add(detailEntity);
+        }
+        purchaseDetailService.updateBatchById(update);
+        //1、改变采购单状态
+        Long id = doneVo.getId();
+        PurchaseEntity purchaseEntity = new PurchaseEntity();
+        purchaseEntity.setId(id);
+        purchaseEntity.setStatus(flag ? WareConstant.PurchaseStatusEnum.FINISHED.getCode() : WareConstant.PurchaseStatusEnum.HAVEERROR.getCode());
+        purchaseEntity.setUpdateTime(new Date());
+        this.updateById(purchaseEntity);
     }
 
 

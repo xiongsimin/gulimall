@@ -188,4 +188,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         PageUtils pageUtils = new PageUtils(page);
         return pageUtils;
     }
+
+    @Override
+    public List<Long> getSearchAttrIds(List<Long> attrIds) {
+        return attrDao.getSearchAttrIds(attrIds);
+    }
 }

@@ -4,6 +4,7 @@ import kim.aries.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import kim.aries.gulimall.product.entity.AttrEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,11 @@ import java.util.List;
 @Mapper
 public interface AttrDao extends BaseMapper<AttrEntity> {
 
+    /**
+     * 筛选出用于检索的属性
+     *
+     * @param attrIds
+     * @return
+     */
+    List<Long> getSearchAttrIds(@Param("attrIds") List<Long> attrIds);
 }

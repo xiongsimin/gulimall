@@ -2,6 +2,7 @@ package kim.aries.gulimall.ware.service.impl;
 
 import kim.aries.common.utils.R;
 import kim.aries.gulimall.ware.fegin.ProductFeignService;
+import kim.aries.common.to.SkuHasStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,19 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         } else {
             wareSkuDao.addStock(skuId, wareId, skuNum);
         }
+    }
+
+    @Override
+    public List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds) {
+        List<SkuHasStockVo> skuHasStockVos = this.wareSkuDao.selectStock(skuIds);
+        skuHasStockVos.stream().forEach(item -> {
+            if (item.getStock() > 0) {
+                item.setHasStock(true);
+            } else {
+                item.setHasStock(false);
+            }
+        });
+        return skuHasStockVos;
     }
 
 }

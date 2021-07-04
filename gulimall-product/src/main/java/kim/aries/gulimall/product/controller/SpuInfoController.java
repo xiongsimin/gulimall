@@ -5,11 +5,7 @@ import java.util.Map;
 
 import kim.aries.gulimall.product.vo.spusave.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import kim.aries.gulimall.product.entity.SpuInfoEntity;
 import kim.aries.gulimall.product.service.SpuInfoService;
@@ -29,6 +25,18 @@ import kim.aries.common.utils.R;
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
+
+    /**
+     * 商品上架
+     *
+     * @param spuId
+     * @return
+     */
+    @PostMapping("/{spuId}/up")
+    public R up(@PathVariable("spuId") Long spuId) {
+        spuInfoService.up(spuId);
+        return R.ok();
+    }
 
     /**
      * 列表

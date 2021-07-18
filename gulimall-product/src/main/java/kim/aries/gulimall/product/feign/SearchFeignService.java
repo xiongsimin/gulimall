@@ -12,7 +12,7 @@ import java.util.List;
  * @Author aries
  * @Data 2021-07-04
  */
-@FeignClient
+@FeignClient("gulimall-search")
 public interface SearchFeignService {
     @RequestMapping("/product")
     R productPutOnShelf(@RequestBody List<SkuEsModel> skuEsModels);

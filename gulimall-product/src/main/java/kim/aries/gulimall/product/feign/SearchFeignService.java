@@ -14,6 +14,6 @@ import java.util.List;
  */
 @FeignClient("gulimall-search")
 public interface SearchFeignService {
-    @RequestMapping("/product")
+    @RequestMapping("/search/save/product")
     R productPutOnShelf(@RequestBody List<SkuEsModel> skuEsModels);
 }

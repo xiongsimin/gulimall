@@ -36,6 +36,7 @@ public class ElasticSaveServiceImpl implements ElasticSaveService {
         for (SkuEsModel skuEsModel : skuEsModels) {
             //构造保存请求
             IndexRequest indexRequest = new IndexRequest(EsConstant.PRODDUCT_INDEX);
+            //设置索引的id项
             indexRequest.id(skuEsModel.getSkuId().toString());
             String s = JSON.toJSONString(skuEsModel);
             indexRequest.source(s, XContentType.JSON);

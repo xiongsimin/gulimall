@@ -285,6 +285,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             baseMapper.updateSpuStatus(spuId, ProductConstant.StatusEnum.SPU_UP.getCode());
         } else {
             //调用失败
+            //todo  解决重复调用，接口幂等性问题
         }
     }
 

@@ -28,6 +28,7 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
+    //todo 前台尚未完成逻辑，postman已跑通
     @PostMapping("/done")
     public R finish(@RequestBody PurchaseDoneVo doneVo) {
         purchaseService.done(doneVo);

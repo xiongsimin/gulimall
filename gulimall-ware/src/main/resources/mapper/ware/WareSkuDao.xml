@@ -22,7 +22,7 @@
         <foreach collection="skuIds" index="inex" item="skuId" open="(" separator="," close=")">
             #{skuId}
         </foreach>
-        order by sku_id
+        group by sku_id
     </select>
 
 
